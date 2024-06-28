@@ -5,6 +5,7 @@ import { getProject, val } from "@theatre/core";
 import studio from "@theatre/studio";
 import { editable as e, SheetProvider, PerspectiveCamera, useCurrentSheet } from "@theatre/r3f";
 import { Gltf, ScrollControls, useScroll } from "@react-three/drei";
+import { useRef } from "react";
 
 studio.initialize();
 
@@ -14,7 +15,7 @@ const demoSheet = getProject("Fly Through").sheet("Scene");
 const App = () => {
   return (
     <Canvas
-    gl={{ preserveDrawingBuffer: true }}
+      gl={{ preserveDrawingBuffer: true }}
       style={{
         width: "100vw",
         height: "100vh",
@@ -40,25 +41,24 @@ const Scene = () => {
     // update the "position" of the playhead in the sequence, as a fraction of its whole length
     sheet.sequence.position = scroll.offset * sequenceLength;
   });
-
+  const cameraTargetRef = useRef();
   const bgColor = "#84a4f4";
   return (
     <>
       <color attach="background" args={[bgColor]} />
       <fog attach="fog" color={bgColor} near={-4} far={10} />
 
-     
-
       <ambientLight intensity={0.5} />
       <e.pointLight theatreKey="Light" position={[10, 10, 10]} />
       <directionalLight position={[-5, 5, -5]} intensity={1.5} />
 
-
       <Gltf src="/environment.glb" castShadow receiveShadow />
 
-
-      <PerspectiveCamera theatreKey="Camera" makeDefault position={[0, 0, 0]} fov={85} near={0.1} far={70} />
-     
+      <PerspectiveCamera theatreKey="Camera" makeDefault position={[0, 0, 0]} fov={85} near={0.1} far={70} lookAt={cameraTargetRef} />
+      <e.mesh theatreKey="Camera Target" visible="editor" ref={cameraTargetRef}>
+        <octahedronBufferGeometry args={[0.1, 0]} />
+        <meshPhongMaterial color="yellow" />
+      </e.mesh>
     </>
   );
 };
