@@ -6,11 +6,17 @@ import studio from "@theatre/studio";
 import { editable as e, SheetProvider, PerspectiveCamera, useCurrentSheet } from "@theatre/r3f";
 import { Gltf, ScrollControls, useScroll } from "@react-three/drei";
 import { useRef } from "react";
+import flyThrougState from "./vastLand.json";
 
-studio.initialize();
 
+const MODEL_PATHs = {
+  environment: "/environment.glb",
+  vastLand: "/the_vast_land.glb"
+}
 // our Theatre.js project sheet, we'll use this later
-const demoSheet = getProject("Fly Through").sheet("Scene");
+const demoSheet = getProject("Fly Through", {
+  state: flyThrougState,
+}).sheet("Scene");
 
 const App = () => {
   return (
@@ -21,7 +27,7 @@ const App = () => {
         height: "100vh",
       }}
     >
-      <ScrollControls pages={5}>
+      <ScrollControls pages={8}>
         <SheetProvider sheet={demoSheet}>
           <Scene />
         </SheetProvider>
@@ -43,6 +49,7 @@ const Scene = () => {
   });
   const cameraTargetRef = useRef();
   const bgColor = "#84a4f4";
+  const modelRef = useRef();
   return (
     <>
       <color attach="background" args={[bgColor]} />
@@ -52,11 +59,21 @@ const Scene = () => {
       <e.pointLight theatreKey="Light" position={[10, 10, 10]} />
       <directionalLight position={[-5, 5, -5]} intensity={1.5} />
 
-      <Gltf src="/environment.glb" castShadow receiveShadow />
+      <Gltf ref={modelRef} onAfterRender={()=>{
 
-      <PerspectiveCamera theatreKey="Camera" makeDefault position={[0, 0, 0]} fov={85} near={0.1} far={70} lookAt={cameraTargetRef} />
+      }} src={MODEL_PATHs.vastLand} castShadow receiveShadow />
+
+      <PerspectiveCamera
+        theatreKey="Camera"
+        makeDefault
+        position={[0, 0, 0]}
+        fov={85}
+        near={0.1}
+        far={70}
+        lookAt={cameraTargetRef}
+      />
       <e.mesh theatreKey="Camera Target" visible="editor" ref={cameraTargetRef}>
-        <octahedronBufferGeometry args={[0.1, 0]} />
+        <octahedronGeometry args={[0.1, 0]} />
         <meshPhongMaterial color="yellow" />
       </e.mesh>
     </>
