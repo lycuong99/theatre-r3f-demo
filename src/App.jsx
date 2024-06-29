@@ -2,43 +2,51 @@
 import "./App.css";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { getProject, val } from "@theatre/core";
-import studio from "@theatre/studio";
 import { editable as e, SheetProvider, PerspectiveCamera, useCurrentSheet } from "@theatre/r3f";
 import { Gltf, ScrollControls, useScroll } from "@react-three/drei";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import flyThrougState from "./vastLand.json";
-
+import AudioComponent from "./AudioComp";
 
 const MODEL_PATHs = {
   environment: "/environment.glb",
-  vastLand: "/the_vast_land.glb"
-}
+  vastLand: "/the_vast_land.glb",
+};
 // our Theatre.js project sheet, we'll use this later
 const demoSheet = getProject("Fly Through", {
   state: flyThrougState,
 }).sheet("Scene");
 
-const App = () => {
+const App = ({ ready = true }) => {
   return (
-    <Canvas
-      gl={{ preserveDrawingBuffer: true }}
-      style={{
-        width: "100vw",
-        height: "100vh",
-      }}
-    >
-      <ScrollControls pages={8}>
+    <Canvas gl={{ preserveDrawingBuffer: true }}>
+      <ScrollControls pages={30}>
         <SheetProvider sheet={demoSheet}>
-          <Scene />
+          <Scene ready={ready} />
         </SheetProvider>
       </ScrollControls>
+
+      {ready && <AudioComponent url={"/audio.mp3"} loop={true} autoplay={true} volume={0.5} />}
     </Canvas>
   );
 };
-
-const Scene = () => {
+const Scene = ({ ready }) => {
   const sheet = useCurrentSheet();
   const scroll = useScroll();
+
+  // useEffect(() => {
+  //   const audioContext = new AudioContext();
+  //   const audioBuffer = audioContext.createBuffer(1, 2, 44100);
+  //   sheet.sequence.attachAudio({ source: "/audio.mp3" });
+  // }, []);
+  useEffect(() => {
+    const runAudio = async () => {
+      sheet.sequence.play();
+    };
+    if (ready) {
+      runAudio();
+    }
+  }, [ready]);
 
   // our callback will run on every animation frame
   useFrame(() => {
@@ -59,9 +67,7 @@ const Scene = () => {
       <e.pointLight theatreKey="Light" position={[10, 10, 10]} />
       <directionalLight position={[-5, 5, -5]} intensity={1.5} />
 
-      <Gltf ref={modelRef} onAfterRender={()=>{
-
-      }} src={MODEL_PATHs.vastLand} castShadow receiveShadow />
+      <Gltf ref={modelRef} onAfterRender={() => {}} src={MODEL_PATHs.vastLand} castShadow receiveShadow />
 
       <PerspectiveCamera
         theatreKey="Camera"
@@ -76,6 +82,7 @@ const Scene = () => {
         <octahedronGeometry args={[0.1, 0]} />
         <meshPhongMaterial color="yellow" />
       </e.mesh>
+      {/* {ready && <PositionalAudio autoplay loop url="/audio.mp3" distance={3} />} */}
     </>
   );
 };
