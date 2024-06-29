@@ -15,7 +15,7 @@ export default function Intro({ children }) {
       </Suspense>
       <div className={`fullscreen bg ${ready ? "ready" : "notready"} ${clicked && "clicked"}`}>
         <div className="stack">
-          <button className="p-4 border border-red-50 rounded-none" onClick={() => setClicked(true)} style={{ color: "white" }}>
+          <button className="p-4 border border-red-50 rounded-none" disabled={!ready} onClick={() => setClicked(true)} style={{ color: "white" }}>
             {!ready ? "loading" : "click to continue"}
           </button>
         </div>
