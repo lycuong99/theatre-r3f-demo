@@ -12,6 +12,14 @@
           },
           "Camera": {
             "fov": 70
+          },
+          "Fog": {
+            "color": {
+              "r": 0.5176470588235295,
+              "g": 0.6431372549019608,
+              "b": 0.9568627450980393,
+              "a": 1
+            }
           }
         }
       },
@@ -769,6 +777,83 @@
               "[\"position\",\"y\"]": "PBuzECMVNc",
               "[\"position\",\"z\"]": "xwjNkVuLhi"
             }
+          },
+          "Fog": {
+            "trackData": {
+              "ODX_OfVbIW": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Fog:[\"color\"]",
+                "keyframes": []
+              },
+              "Zudwu2lzDG": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Fog:[\"near\"]",
+                "keyframes": []
+              },
+              "DXJVUY8j04": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "Fog:[\"far\"]",
+                "keyframes": [
+                  {
+                    "id": "0OOUzG2R0M",
+                    "position": 0.133,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 6
+                  },
+                  {
+                    "id": "8GVjaIin88",
+                    "position": 0.867,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 9
+                  },
+                  {
+                    "id": "yND2LsZgNT",
+                    "position": 10.633,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 9
+                  },
+                  {
+                    "id": "-dyFO0skW1",
+                    "position": 12.6,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 6
+                  }
+                ]
+              }
+            },
+            "trackIdByPropPath": {
+              "[\"color\"]": "ODX_OfVbIW",
+              "[\"near\"]": "Zudwu2lzDG",
+              "[\"far\"]": "DXJVUY8j04"
+            }
           }
         }
       }
@@ -776,6 +861,7 @@
   },
   "definitionVersion": "0.4.0",
   "revisionHistory": [
+    "lOTjgJZBM7RpEODW",
     "E7TRlnLm_pjJzktG",
     "9OIdvzFf4g0nliec",
     "vuDRi9cYAsfFZeww"

@@ -61,7 +61,7 @@ const Scene = ({ ready }) => {
   return (
     <>
       <color attach="background" args={[bgColor]} />
-      <fog attach="fog" color={bgColor} near={-4} far={10} />
+      <e.fog theatreKey="Fog" attach="fog" color={bgColor} near={-4} far={6} />
 
       <ambientLight intensity={0.5} />
       <e.pointLight theatreKey="Light" position={[10, 10, 10]} />
